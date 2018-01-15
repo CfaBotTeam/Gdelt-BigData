@@ -8,8 +8,8 @@ use events;
 
 CREATE TABLE events_mentions (
  globalEventsID int,
- eventDateTime date,
- mentionDateTime date,
+ eventDate date,
+ mentionDateTime timestamp,
  mentionSourceName text,
  confidence int,
  mentionDocTone float,
