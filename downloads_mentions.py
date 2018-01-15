@@ -84,6 +84,9 @@ class S3Extractor:
         is_truncated = True
         while is_truncated:
             response = self.client_.list_objects(Bucket=self.bucket_, Marker=marker, Prefix=self.s3_prefix_)
+            is_truncated = response['IsTruncated']
+            if 'Contents' not in and not is_truncated:
+                break
             objects = response['Contents']
             for obj in objects:
                 if not obj['Key'].endswith(csv_config.name_ + '.CSV.zip'):
@@ -94,7 +97,6 @@ class S3Extractor:
                 df = self.extract_df_from_body(csv_config, obj['Key'])
                 all_files.append(df)
             marker = objects[-1]['Key']
-            is_truncated = response['IsTruncated']
         return pd.concat(all_files)
 
 

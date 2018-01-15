@@ -18,3 +18,13 @@ CREATE TABLE events_mentions (
  country text,
  PRIMARY KEY ((sector, firm), mentionDateTime)
 );
+
+CREATE OR REPLACE FUNCTION toneScore (tone FLOAT, confidence INT)
+RETURNS NULL ON NULL INPUT
+RETURNS double LANGUAGE java AS
+'return Double.valueOf(tone.doubleValue() * confidence.intValue())';
+
+
+COPY events_mentions
+(sector, firm, mentiondatetime, confidence, country, eventdate, globaleventsid, mentiondoctone, mentionsourcename)
+TO 'all_events_mentions.csv';
