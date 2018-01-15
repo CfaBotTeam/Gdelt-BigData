@@ -25,6 +25,6 @@ RETURNS double LANGUAGE java AS
 'return Double.valueOf(tone.doubleValue() * confidence.intValue())';
 
 
-COPY events_mentions
+COPY events_mentions_country
 (sector, firm, mentiondatetime, confidence, country, eventdate, globaleventsid, mentiondoctone, mentionsourcename)
-TO 'all_events_mentions.csv';
+FROM 'all_events_mentions_by_sources.csv' WITH HEADER=true;

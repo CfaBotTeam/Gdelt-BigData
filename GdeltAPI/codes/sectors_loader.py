@@ -1,8 +1,13 @@
 import pandas as pd
+import numpy as np
 
 
 class SectorsLoader:
-    sectors_ = {}
+    def __init__(self):
+        self.sectors_ = {}
+        self.unique_sectors_ = []
+        self.nb_company_ = 0
+        self.nb_sectors_ = 0
 
     def load_company_sectors(self):
         sectors_df = pd.read_csv('codes/company_codes.csv')
@@ -15,3 +20,9 @@ class SectorsLoader:
         if company_name in self.sectors_:
             return self.sectors_[company_name]
         return None
+
+    def get_sectors(self):
+        return np.array(self.sectors_.values()).unique().tolist()
+
+    def get_companies(self):
+        return self.sectors_.keys()
