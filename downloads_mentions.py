@@ -61,6 +61,20 @@ class S3Extractor:
                 return result
         return None
 
+    def extract_df_from_body(self, csv_config, key):
+        try:
+            body = self.client_.get_object(Bucket=self.bucket_, Key=key)['Body']
+            body_content = self.read_body_safe(body)
+            if body_content is None:
+                None
+            in_memory_zip = BytesIO(body_content)
+            df = self.get_entities(in_memory_zip, csv_config)
+            df = self.clean_up_transform(df)
+        except:
+            print('Error extracting file ' + key + ' to df')
+            return None
+        return df
+
     def extract_entities(self):
         csv_config = self.get_config()
         print('Extracting ' + csv_config.name_)
@@ -77,13 +91,7 @@ class S3Extractor:
                 count += 1
                 if count % 10 == 0:
                     print(count)
-                body = self.client_.get_object(Bucket=self.bucket_, Key=obj['Key'])['Body']
-                body_content = self.read_body_safe(body)
-                if body_content is None:
-                    continue
-                in_memory_zip = BytesIO(body_content)
-                df = self.get_entities(in_memory_zip, csv_config)
-                df = self.clean_up_transform(df)
+                df = self.extract_df_from_body(csv_config, obj['Key'])
                 all_files.append(df)
             marker = objects[-1]['Key']
             is_truncated = response['IsTruncated']
