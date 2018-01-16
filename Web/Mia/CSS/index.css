@@ -1,0 +1,158 @@
+body{
+	background-color:#F7F7F7;
+}
+
+.charts{
+	position:relative;
+	top:5%;
+	left:90px;
+	width:90%;
+	height:50%;
+	background-color:white;
+	border-radius: 15px;
+	margin-bottom: 2%;
+}
+
+.Two_columns{
+	position:relative;
+	top:5%;
+	left:90px;
+	width:90%;
+	height:70%;
+	margin:0;
+	padding:0;
+	/*background-color:red;*/
+}
+
+.mini_divs_1{
+	position:absolute;
+	display: inline-block;
+	height:70%;
+	width:45%;
+	border-radius: 15px;
+	background-color:white;
+	padding:0;
+	top:75%;
+	left:90px;
+}
+
+.mini_divs_2{
+	position:absolute;
+	display: inline-block;
+	height:70%;
+	width:43%;
+	border-radius: 15px;
+	background-color:white;
+	padding:0;
+	top:75%;
+	right:3.5%;
+}
+
+#TableTop{
+	position:relative;
+	top:3%;
+	width:100%;
+	height:15%;
+	/*background-color:green;*/
+}
+
+#distinctSectorRanking{
+	position:relative;
+	top: 0;
+	left:0;
+	margin-left:70%;
+	width:28%;
+}
+
+#ranking{
+	position:relative;
+	margin-left:10%;
+	width:70%;
+	height:75%;
+	top:3%;
+}
+
+#ranking tr:nth-child(even) {
+    background-color: #dddddd;
+}
+#ranking tr:nth-child(odd) {
+    background-color: white;
+}
+
+#RepEntAn_Chart{
+	position: relative;
+	/*background-color: blue;*/
+	top:0;
+	right:0;
+	width:80%;
+	height:100%;
+}
+
+.chart_side{
+	position:absolute;
+	top:0;
+	right:0;
+	width:20%;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+
+.dropdown{
+	position:relative;
+	top:10%;
+	width:70%;
+	font-size:10pt;
+	margin-right:0;
+	padding-right:0;
+	
+}
+
+#body{
+	position:absolute;
+	/*background-color:blue;*/
+	top:0;
+	left:70px;
+	width:95%;
+	height:100%;
+	overflow: scroll;
+	overflow: scroll;
+	
+}
+
+#general{
+	position:relative;
+	top:20px;
+	left:0;
+	height:100px;
+	width:100%;
+	background-color:white;
+}
+
+.generals{
+	position:relative;
+	top:5%;
+	left:0;
+	height:90%;
+	width:19%;
+	display: inline-block;
+	margin:0;
+	padding:0;
+	border-right: 5px solid black;
+}
+
+.title_generals{
+	position:relative;
+	font-size:20pt;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+
+.generals p{
+	position:relative;
+	margin-top:2%;
+	left:0;
+	right:0;
+	top:0;
+	font-size:28pt;
+}

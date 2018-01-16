@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--side nav bar-->
+	<link href="./CSS/side_nav_bar.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link href="./CSS/index.css" rel="stylesheet">
+	
+	<!--Chart reputation d'une entreprise pendant un an-->
+	
+	<script src="./JS/reputation_1an.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+
+	
+  </head>
+  
+  <body>
+  
+	<div class="sidenav">
+		<a class="fa-home icons_nav" ></a>
+		<a class="fa-dashboard icons_nav" ></a>
+		<a class="fa-home icons_nav" ></a>
+		<a class="fa-dashboard icons_nav" ></a>
+		<a class="fa-home icons_nav" ></a>
+		<a class="fa-dashboard icons_nav" ></a>
+	</div>
+	
+	<div id="body">
+		<div id="general">
+			<div align="center" class="generals">
+				<span class="title_generals">
+					<i class="fa fa-cubes"></i>Total Sectors
+				</span>
+				
+				<p id="totalSectors" > 3837</p>
+			
+			</div>
+			
+			<div align="center" class="generals">
+				<span class="title_generals">
+					<i class="fa fa-cubes"></i>Total Firms
+				</span>
+				
+				<p id="totalFirms" > 3567</p>
+			
+			</div>
+			
+			<div align="center" class="generals">
+				<span class="title_generals">
+					<i class="fa fa-cubes"></i>Total Countries
+				</span>
+				
+				<p id="totalCountries" > 357</p>
+			
+			</div>
+			
+			<div align="center" class="generals">
+				<span class="title_generals">
+					<i class="fa fa-cubes"></i>Total Sources
+				</span>
+				
+				<p id="totalSources" > 30567</p>
+			
+			</div>
+			
+			<div align="center" class="generals">
+				<span class="title_generals">
+					<i class="fa fa-cubes"></i>Average Note
+				</span>
+				
+				<p id="AvgNote" > 67</p>
+			
+			</div>
+			
+	
+		</div>
+		
+		<div class="charts">
+			<div id="RepEntAn_Chart">
+				<div id="container" style="min-width: 200px; height: 93%; margin-top: 1.5%; margin-left: 2%; auto"></div>
+				<!--
+					<script>
+						$.ajax({
+							type:"POST",
+							url:"PHP fct//selectCountry.php",
+							contentType:"application/json; charset=utf-8",
+							dataType:"json",
+							success:function(data){
+								$('#country').append("<option value=''disabled selected>---Select country---</option>");
+								$.each(data,function(i,item){
+									$('#country').append('<option value="' + data[i].country_id + '"name="' + data[i].country_code+ '">' + data[i].country_name + '</option>');
+								});
+							}
+						});
+					</script>
+					-->
+				
+			
+			</div>
+			
+			<script>changeFirm("Google")</script>
+			
+			<div class="chart_side" align="center">
+				<p style="font-size:18pt;margin-bottom:3%;padding:0;">Select Firm:</p>
+				<select class="dropdown" id="dropdown_RepEntAN" onchange="changeFirm(this.value)">
+					<option value="Google">Google</option>
+					<option value="Microsoft">Microsoft</option>
+					<option value="eBay">eBay</option>
+					<option value="Audi">Audi</option>
+				</select>
+				
+				<p style="font-size:18pt;margin-bottom:3%;padding:0;">From:</p>
+				<input type="date" name="startingDate" class="dropdown" onchange="changeStartTime(this.value)">
+				<p style="font-size:18pt;margin-bottom:3%;padding:0;">To:</p>
+				<input type="date" name="startingDate" class="dropdown" onchange="changeStartTime(this.value)">
+				
+			</div>
+			
+	
+		</div>
+		
+		
+			<div class="mini_divs_1" style="margin-right:9.5%; ">
+				<div id="TableTop">
+					<p style="font-size:23pt;position:absolute; left: 10%; margin-top:0;"> Rankings by Sector </p>
+					<p style="font-size:18pt;margin-left:75%; margin-bottom:1%;">Select sector</p>
+					<select id="distinctSectorRanking">
+						<option value="Financials">Financials</option>
+						<option value="Materials">Materials</option>
+						<option value="Utilities">Utilities</option>
+						<option value="Communication">Communication</option>
+					</select>
+				</div>
+				
+			
+				<table id="ranking">
+					<tr>
+						<th>#Rank</th>
+						<th>Firm</th>
+					</tr>
+					<tr>
+						<td align="center">1</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">2</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">3</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">4</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">5</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">6</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">7</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">8</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">9</td>
+						<td align="center">Google</tr>
+					</tr>
+					<tr>
+						<td align="center">10</td>
+						<td align="center">Google</tr>
+					</tr>
+				</table>
+			
+			</div>
+			
+			<div class="mini_divs_2"  >
+				<p align="center" style="font-size:23pt;"> Number of mentions by Sector</p>
+				<div id="container_Pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+				<script>drawPieChart()</script>
+			</div>
+	
+		
+	
+	
+	</div>
+	
+	
+  
+  </body>
+  
+</html>

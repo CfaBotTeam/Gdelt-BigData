@@ -22,7 +22,7 @@ class SectorsLoader:
         return None
 
     def get_sectors(self):
-        return np.array(self.sectors_.values()).unique().tolist()
+        return [x for x in np.unique(np.array(self.sectors_.values()))]
 
     def get_companies(self):
-        return self.sectors_.keys()
+        return [x for x in self.sectors_.keys()]

@@ -1,7 +1,6 @@
 from functools import wraps
 from views.util import DateTimeEncoder
-import json
-from flask import Blueprint, Response
+from flask import Blueprint, Response, Flask
 import flask
 import json
 
@@ -10,6 +9,7 @@ from codes.sectors_loader import SectorsLoader
 
 __author__ = 'puneet'
 
+app = Flask(__name__)
 api = Blueprint("api",__name__)
 
 db = CassandraDBConnector()
@@ -17,6 +17,7 @@ db.connect("ec2-54-160-15-115.compute-1.amazonaws.com", "9042")
 
 sectors_loader = SectorsLoader()
 sectors_loader.load_company_sectors()
+
 
 def json_api(f):
     @wraps(f)
@@ -28,11 +29,13 @@ def json_api(f):
                         mimetype='application/json')
     return decorated_function
 
-
-@api.route('/', defaults={"path": ""})
-@api.route('/<path:path>')
-def index(path=None):
-    return "Hello World"
+#
+# @app.after_request
+# def after_request(response):
+#   response.headers.add('Access-Control-Allow-Origin', '*')
+#   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#   return response
 
 
 @api.route("/firms", methods=["GET"])
@@ -100,7 +103,103 @@ def get_mentions_by_firm():
             "mentionDocTone": row.mentiondoctone,
             "mentionDateTime": row.mentiondatetime
         })
-    return {'mentions': mentions}
+    return {'mentions': mentions, 'query': query}
 
 
-# "eventDate": row.eventdate,
+@api.route("/mentions_by_sector", methods=["GET"])
+@json_api
+def get_mentions_by_sector():
+    args = flask.request.args
+    sector = args['sector']
+    startDate = args['startDate']
+    endDate = args['endDate']
+
+    if sector is None or startDate is None or endDate is None:
+        return {"error": "Invalid Input"}
+
+    query = \
+        "SELECT * FROM events.events_mentions where sector = '{}' " + \
+        "and mentionDateTime >= '{}' and mentionDateTime <= '{}' ALLOW FILTERING"
+    result = db.query(query.format(sector, startDate, endDate))
+    mentions = []
+    if result is None:
+        return {'error': "No User Present"}
+
+    for row in result:
+        mentions.append({
+            "globalEventsId": row.globaleventsid,
+            "firm": row.firm,
+            "sector": row.sector,
+            "mentionSourceName": row.mentionsourcename,
+            "country": row.country,
+            "confidence": row.confidence,
+            "mentionDocTone": row.mentiondoctone,
+            "mentionDateTime": row.mentiondatetime
+        })
+    return {'mentions': mentions, 'query': query}
+
+
+@api.route("/mentions_by_source", methods=["GET"])
+@json_api
+def get_mentions_by_source():
+    args = flask.request.args
+    source = args['source']
+    startDate = args['startDate']
+    endDate = args['endDate']
+
+    if source is None or startDate is None or endDate is None:
+        return {"error": "Invalid Input"}
+
+    query = \
+        "SELECT * FROM events.events_mentions_sourcename where mentionsourcename = '{}' " + \
+        "and mentionDateTime >= '{}' and mentionDateTime <= '{}'"
+    result = db.query(query.format(source, startDate, endDate))
+    mentions = []
+    if result is None:
+        return {'error': "No User Present"}
+
+    for row in result:
+        mentions.append({
+            "globalEventsId": row.globaleventsid,
+            "firm": row.firm,
+            "sector": row.sector,
+            "mentionSourceName": row.mentionsourcename,
+            "country": row.country,
+            "confidence": row.confidence,
+            "mentionDocTone": row.mentiondoctone,
+            "mentionDateTime": row.mentiondatetime
+        })
+    return {'mentions': mentions, 'query': query}
+
+
+@api.route("/mentions_by_country", methods=["GET"])
+@json_api
+def get_mentions_by_country():
+    args = flask.request.args
+    country = args['country']
+    startDate = args['startDate']
+    endDate = args['endDate']
+
+    if country is None or startDate is None or endDate is None:
+        return {"error": "Invalid Input"}
+
+    query = \
+        "SELECT * FROM events.events_mentions_country where country = '{}' " + \
+        "and mentionDateTime >= '{}' and mentionDateTime <= '{}'"
+    result = db.query(query.format(country, startDate, endDate))
+    mentions = []
+    if result is None:
+        return {'error': "No User Present"}
+
+    for row in result:
+        mentions.append({
+            "globalEventsId": row.globaleventsid,
+            "firm": row.firm,
+            "sector": row.sector,
+            "mentionSourceName": row.mentionsourcename,
+            "country": row.country,
+            "confidence": row.confidence,
+            "mentionDocTone": row.mentiondoctone,
+            "mentionDateTime": row.mentiondatetime
+        })
+    return {'mentions': mentions, 'query': query}
